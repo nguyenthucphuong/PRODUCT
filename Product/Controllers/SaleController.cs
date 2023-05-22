@@ -44,7 +44,8 @@ namespace Product.Controllers
         [HttpPost]
         public ActionResult ThanhToan()
         {
-            if (handleList != null) handleList.Clear();
+            if (handleList != null)
+                handleList.Clear();
             ViewData["TongTien"] = "0";
             return RedirectToAction("Index");
         }

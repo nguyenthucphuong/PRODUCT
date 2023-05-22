@@ -93,7 +93,6 @@ input[type=text], input[type=number] {
     color: orange;
 }
 
-
 table {
     border-collapse: collapse;
     width: 100%;
@@ -144,21 +143,10 @@ label {
 .background {
     background: #ffffff;
     box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.25), 5px 5px 24px rgba(72, 63, 168, 0.4);
-     padding: 28px 40px;
+    padding: 28px 40px;
     margin-bottom: 10px;
     background-position: center;
 }
-/*
-.background_l {
-    background: #ffffff;
-    box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.25), 5px 5px 24px rgba(72, 63, 168, 0.4);
-   
-    padding: 28px 40px;
-    margin-bottom: 10px;
-    height: 100%;
-    width: 50%;
-}
-*/
 #myform {
     border-bottom: 2px solid lightgrey;
     padding-bottom: 20px;

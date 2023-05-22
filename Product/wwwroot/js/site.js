@@ -15,8 +15,4 @@
         }
     });
 });
-/*
-document.getElementById("themvao").addEventListener("click", function () {
-    // Đây là nơi bạn có thể thêm mã xử lý khi nút "Thêm vào giỏ hàng" được nhấn
-});
-*/
+
