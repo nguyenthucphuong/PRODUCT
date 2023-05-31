@@ -1,62 +1,132 @@
-﻿@model List<Handle>
+﻿@model List<Product.Models.Handle>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     <link rel="stylesheet" href="~/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="~/font-awesome/css/font-awesome.css" />
+    <script src="@Url.Content("~/js/site.js")"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 }
-
-<div class="column left custom-label-left background">
-    <div class="row">
-        <h1 class="centered-heading">Danh sách sản phẩm</h1>
-        <table id="myTable">
-            @if (Model.Count == 0)
-            {
-                <caption>Không có dữ liệu</caption>
-            }
-            <tr>
-                <th>STT</th>
-                <th>Tên sản phẩm</th>
-                <th>Số lượng</th>
-                <th class="align-right">Đơn giá</th>
-                <th class="align-right">Tạm tính</th>
-                <th>Thao tác</th>
-            </tr>
-            @foreach (var handle in Model)
-            {
-                <tr>
-                    <td>@handle.STT</td>
-                    <td>@handle.TenSanPham</td>
-                    <td>@handle.SoLuong</td>
-                    <td class="align-right">@handle.DonGia.ToString("n0")</td>
-                    <td class="align-right">@((handle.SoLuong * handle.DonGia).ToString("n0"))</td>
-                    <td>
-                        <form method="POST" action="@Url.Action("DeleteAction", "Sale")">
-                            <input type="hidden" name="id" value="@handle.STT">
-                            <button type="submit">
-                                <i class="fa fa-trash" style="color: red; cursor: pointer;"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </table>
-        <div id="tongTien">Tổng thành tiền: <span id="tongtien">@((Model.Count == 0) ? "0" : ViewData["TongTien"].ToString())</span> đồng</div>
+<div class="container-fluid">
+    <div class="row d-flex">
+        <div class="col-lg-8 col-md-12 bg-light p-3">
+            <div class="background">
+                <h1 class="size-weight">Danh sách sản phẩm</h1>
+                <div class="top-bottom-border">
+                    <table id="myTable" class="table table-striped">
+                        @if (@Model.Count == 0)
+                        {
+                            <caption class="text-center">
+                                Không có dữ liệu
+                            </caption>
+                        }
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Tạm tính</th>
+                                <th scope="col">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                var handleList = Handle.GetHandleList();
+                                for (int i = 0; i < handleList.Count; i++)
+                                {
+                                    var handle = handleList[i];
+                                    <tr>
+                                        <td class="text-center">@(i + 1)</td>
+                                        <td class="text-center">@handle.TenSanPham</td>
+                                        <td class="text-center">@handle.SoLuong</td>
+                                        <td style="text-align: right;">@handle.DonGia.ToString("n0")</td>
+                                        <td style="text-align: right;">
+                                            @handle.TamTinh.ToString("n0") <br />
+                                            @handle.tinhGiamGia().ToString("n0")
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa fa-trash text-danger"></i></a>
+                                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có chắc chắn muốn xóa không?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                            <a href="@Url.Action("DeleteAction", "Sale", new { id = @i })" class="btn btn-danger text-dark">Xóa</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="right-bold">
+                    <p>Tổng tạm tính: <span id="tamtinh">@Handle.tongTamTinh.ToString("n0")</span> đồng</p>
+                    <p>Giảm giá: <span id="giamgia">@(Handle.tongGiamGia().ToString("n0"))</span> đồng</p>
+                    <p>Tổng thành tiền: <span id="tongtien">@(Handle.tongCong().ToString("n0"))</span> đồng</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-12 bg-light p-3 d-flex flex-column justify-content-between">
+            <div class="background">
+                <h1 class="size-weight">Thông tin sản phẩm</h1>
+                <div class="top-bottom-border">
+                    <form id="myform" name="myform" action="/Sale/AddToCart" method="post">
+                        <div class="mb-3">
+                            <label for="sanPham" class="form-label">Tên sản phẩm *</label>
+                            <input type="text" class="form-control" id="sanPham" name="sanPham" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="soLuong" class="form-label">Số lượng *</label>
+                            <input type="text" class="form-control" id="soLuong" name="soLuong" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="donGia" class="form-label">Đơn giá bán *</label>
+                            <input type="text" class="form-control" id="donGia" name="donGia" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="giamGia" class="form-label">Giảm giá (%)</label>
+                            <input type="number" class="form-control" id="giamGia" name="giamGia" min="0" max="100" />
+                        </div>
+                    </form>
+                </div>
+                <p>(*): Thông tin bắt buộc</p>
+                <div class="button-row">
+                    <button type="submit" id="themvao" form="myform" class="add-to-cart">Thêm vào giỏ hàng</button>
+                    <a href="@Url.Action("ThanhToan", "Sale")" id="thanhtoan" class="btn btn-warning text-danger checkout" data-bs-toggle="modal" data-bs-target="#myDialog">Thanh toán</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="column right custom-label-right background">
-    <h1 class="centered-heading">Thông tin sản phẩm</h1>
-    <form id="myform" action="/Sale/AddToCart" method="post">
-        <label for="sanPham">Tên sản phẩm *</label>
-        <input type="text" id="sanPham" name="sanPham" required>
-        <label for="soLuong">Số lượng *</label>
-        <input type="text" id="soLuong" name="soLuong" required>
-        <label for="donGia">Đơn giá bán *</label>
-        <input type="text" id="donGia" name="donGia" required>
-    </form>
-    <p>(*): Thông tin bắt buộc</p>
-    <form action="/Sale/ThanhToan" method="post">
-        <button type="submit" id="themvao" form="myform" class="button">Thêm vào giỏ hàng</button>
-        <button type="submit" id="thanhtoan" class="button">Thanh toán</button>
-    </form>
+<div class="modal fade" id="myDialog" tabindex="-1" aria-labelledby="myDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myDialogLabel">Xác nhận thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tổng tiền phải thanh toán là: <span class="amount">@(Handle.tongCong().ToString("n0"))</span> đồng</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <form action="/Sale/ThanhToan" method="post">
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

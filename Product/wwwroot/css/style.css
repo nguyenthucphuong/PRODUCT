@@ -19,135 +19,74 @@ html {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-    position: relative;
-    min-height: 100%;
+.button-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-body {
-    margin-bottom: 60px;
-}
-
-.column {
-    float: left;
-    padding: 10px;
-    display: inline-block;
-}
-
-    .column.right {
-        width: 35%;
-    }
-
-    .column.left {
-        width: 65%;
-    }
-
-.row::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-input[type=text], input[type=number] {
-    width: 85%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid lightgrey;
-    color: black;
-}
-
-.centered-heading {
-    text-align: center;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 30px;
-    color: black;
-    text-align: center;
-    margin-bottom: 15px;
-    padding: 12px 20px;
-    border-bottom: 2px solid lightgrey;
-}
-
-#themvao, #thanhtoan {
-    padding: 1px 1px;
-    text-align: center;
-    font-weight: 700;
-    line-height: 40px;
-    vertical-align: middle;
-    width: 160px;
-    margin-left: 17px;
-    display: inline-block;
-    border-radius: 2px;
-}
-
-#themvao {
+.add-to-cart {
     background-color: cornflowerblue;
-    border: none;
     color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
 }
 
-#thanhtoan {
+.checkout {
     background-color: white;
     border: 1px solid orange;
     color: orange;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th {
-    text-align: center;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(6) {
-    text-align: center;
-}
-
-td:nth-child(4), td:nth-child(5) {
-    text-align: right;
-}
-
-th.align-right {
-    text-align: right;
-}
-
-td.align-right {
-    text-align: right;
-}
-
-caption {
-    caption-side: bottom;
-    text-align: center;
-    background-color: #f2f2f2;
-}
-
-#tongTien {
-    text-align: right;
-    border-top: 2px solid lightgrey;
-    padding: 12px 20px;
-    margin-top: 30px;
-    font-weight: bold;
-}
-
-label {
-    color: black;
-    font-weight: bold;
-}
 .background {
     background: #ffffff;
     box-shadow: -10px -10px 20px rgba(255, 255, 255, 0.25), 5px 5px 24px rgba(72, 63, 168, 0.4);
     padding: 28px 40px;
-    margin-bottom: 10px;
     background-position: center;
+    max-width: 100%;
+    height: 75vh;
 }
-#myform {
+
+html, body {
+    height: 100%;
+}
+
+.right-bold {
+    text-align: right;
+    font-weight: bold;
+    padding: 2px 20px;
+}
+
+.top-bottom-border {
     border-bottom: 2px solid lightgrey;
-    padding-bottom: 20px;
+    border-top: 2px solid lightgrey;
+    padding: 20px 20px;
+    margin: auto;
 }
+
+.size-weight {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.amount {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+a:link {
+    background-color: transparent;
+    text-decoration: none;
+}
+
+th, td {
+    padding: 5px;
+}
+

@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     const inputFields = $('#soLuong, #donGia');
     inputFields.on('input', function () {
         let inputValue = $(this).val().replaceAll(",", "").replaceAll(/[^0-9]/g, "");
@@ -15,4 +16,3 @@
         }
     });
 });
-
